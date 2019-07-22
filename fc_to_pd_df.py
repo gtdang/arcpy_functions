@@ -22,7 +22,6 @@ def fc_to_pd_df(feature_class, field_list=None):
     all_fields = []
     fields = arcpy.ListFields(feature_class)
     for field in fields:
-        all_fields.append(field.name) # All fields list for requested fields check
         # If a list of fields is not supplied import all fields, check for and exclude geometry data types
         if field_list is None:
             if field.type != 'Geometry':
@@ -32,13 +31,14 @@ def fc_to_pd_df(feature_class, field_list=None):
                     field.name, field.type))
         # If a list is supplied we will check if any of the requested fields are of geometry data type, remove, and warn user
         else:
+            all_fields.append(field.name) # Append fields to a list that will be used to check if user requested fields exist in the feature class
             if (field.type != 'Geometry') & (field.name in field_list):
                     field_list_temp.append(field.name)
             elif (field.type == 'Geometry') & (field.name in field_list):
                 print("Field \"{0}\" is of data type \"{1}\" and will not be imported into the pandas dataframe.".format(
                     field.name, field.type))
 
-    # If field_list is set, check if requested fields are missing from the FC
+    # If field_list is set, check if requested fields exist in the FC
     if field_list is not None:
         for field in field_list:
             if field.name not in all_fields:
