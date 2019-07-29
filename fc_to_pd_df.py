@@ -2,7 +2,7 @@ import arcpy
 import numpy as np
 import pandas as pd
 
-def fc_to_pd_df(feature_class, field_list=None):
+def fc_to_pd_df(feature_class, field_list=None, skip_nulls=False, null_value=-999):
     '''
     This function converts a feature class to a pandas dataframe. The default returns all fields but you may supply a
     list of fields to extract. Fields with the "Geometry" datatype like the "Shape" field of most FC are removed because
@@ -50,8 +50,8 @@ def fc_to_pd_df(feature_class, field_list=None):
     # Convert FC to numpy array with field list
     np_array = arcpy.da.FeatureClassToNumPyArray(in_table=feature_class,
                                                  field_names=field_list,
-                                                 skip_nulls=False,
-                                                 null_value=-999)
+                                                 skip_nulls=skip_nulls,
+                                                 null_value=null_value)
     return pd.DataFrame(np_array)
 
 # Call example
