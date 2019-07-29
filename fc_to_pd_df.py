@@ -8,10 +8,11 @@ def fc_to_pd_df(feature_class, field_list=None, skip_nulls=False, null_value=-99
     list of fields to extract. Fields with the "Geometry" datatype like the "Shape" field of most FC are removed because
     they are not 1-dimensional and Pandas can't deal with that data type.
 
-    Note that very large feature classes may not work due to memory limitations, especially if using 32bit python. You
-    may try supplying a list of only the fields you require to get past the memory limitations.
-
-    Written: 7/17/2019
+    Note that very large feature classes may not work due to memory limitations, especially if using 32bit python, which 
+    applies to ArcMap users. You may try supplying a list of only the fields you require to get past the memory limitations. 
+    ArcPro has 64bit python 3.0. This script has not been tested with that version.  
+    
+    Written: 7/17/2019 GD
 
     :param feature_class: Input ArcGIS Feature Class
     :param field_list: Fields for input (optional), default is all fields
